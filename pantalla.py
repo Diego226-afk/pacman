@@ -2,11 +2,11 @@ import pyxel
 
 class App:
     def __init__(self):
-        pyxel.init(160, 120)  
+        pyxel.init(158, 120)  
         pyxel.load("azul.pyxres")
         self.x = 0
         self.y = 0
-        self.vel=2
+        self.vel=3
         pyxel.run(self.update, self.draw)
 
     def update(self):
