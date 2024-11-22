@@ -27,4 +27,3 @@ class App:
         pyxel.blt(self.x, self.y, 0, 0, 0, 14, 16, 0)
 
 App()
-
