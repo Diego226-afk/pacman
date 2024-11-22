@@ -33,6 +33,14 @@ class Pacman:
         if self.temporizador_animacion >= 8:
             self.sprite_actual = (self.sprite_actual + 1) % 2
             self.temporizador_animacion = 0
+        
+        self.tp()
+    
+    #función de teletransporte, para implementarlo cuando tengamos el mapa (lógica completada)
+    def tp(self):
+        if self.x==0 and self.y==0:
+            self.x=128
+            self.y=128  
 
     def draw(self):
         pyxel.cls(0)
