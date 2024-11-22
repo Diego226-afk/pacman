@@ -13,16 +13,16 @@ class Pacman:
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        if pyxel.btn(pyxel.KEY_A) and self.x - self.velocidad >= 0:
+        if pyxel.btn(pyxel.KEY_A) or pyxel.btn(pyxel.KEY_LEFT) and self.x - self.velocidad >= 0:
             self.x -= self.velocidad
             self.direccion = "izquierda"
-        if pyxel.btn(pyxel.KEY_D) and self.x + self.velocidad <= pyxel.width - 15:
+        if pyxel.btn(pyxel.KEY_D) or pyxel.btn(pyxel.KEY_RIGHT) and self.x + self.velocidad <= pyxel.width - 15:
             self.x += self.velocidad
             self.direccion = "derecha"
-        if pyxel.btn(pyxel.KEY_W) and self.y - self.velocidad >= 0:
+        if pyxel.btn(pyxel.KEY_W) or pyxel.btn(pyxel.KEY_UP) and self.y - self.velocidad >= 0:
             self.y -= self.velocidad
             self.direccion = "arriba"
-        if pyxel.btn(pyxel.KEY_S) and self.y + self.velocidad <= pyxel.height - 16:
+        if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN) and self.y + self.velocidad <= pyxel.height - 16:
             self.y += self.velocidad
             self.direccion = "abajo"
         
