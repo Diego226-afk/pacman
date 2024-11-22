@@ -47,13 +47,13 @@ class Pacman:
 
         # Ajustar los parámetros del sprite para cada dirección
         if self.direccion == "derecha":
-            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 15, 0, self.base*15, 16, 0)
+            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 14, 0, self.base*14, 16, 0)
         elif self.direccion == "izquierda":
-            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 15, 0, self.base*15, 16, 0)
+            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 14, 0, self.base*14, 16, 0)
         elif self.direccion == "arriba":
-            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 15, 0, self.base*15, 16, 0)
+            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 14, 0, self.base*14, 16, 0)
         elif self.direccion == "abajo":
-            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 15, 0, self.base*15, 16, 0)
+            pyxel.blt(self.x, self.y, 0, self.sprite_actual * 14, 0, self.base*14, 16, 0)
 
 Pacman()
 
