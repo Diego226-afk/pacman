@@ -3,7 +3,7 @@ import pyxel
 class Pacman:
     def __init__(self):
         pyxel.init(256, 256, title="Pacman", fps=100)
-        pyxel.load("azul.pyxres") 
+        pyxel.load("azul.pyxres",True) 
         self.x = 128
         self.y = 128
         self.velocidad = 2
@@ -29,7 +29,7 @@ class Pacman:
             self.y += self.velocidad
             self.direccion = "abajo"
         
-        self.temporizador_animacion += 1
+        self.temporizador_animacion += 0.0001
         if self.temporizador_animacion >= 8:
             self.sprite_actual = (self.sprite_actual + 1) % 2
             self.temporizador_animacion = 0
@@ -56,5 +56,3 @@ class Pacman:
             pyxel.blt(self.x, self.y, 0, self.sprite_actual * 14, 0, self.base*14, 16, 0)
 
 Pacman()
-
-
