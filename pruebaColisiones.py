@@ -99,3 +99,4 @@ class Map:
 map_instance = Map()
 Pacman(map_instance)
 
+
