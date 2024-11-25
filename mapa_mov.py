@@ -14,14 +14,15 @@ class Pacman:
         self.map = map_instance  # Pasar la instancia del mapa a Pacman
         pyxel.run(self.update, self.draw)
 
+    # Actualiza las posiciones de Pac-Man con las teclas
     def update(self):
         if (pyxel.btn(pyxel.KEY_A) or pyxel.btn(pyxel.KEY_LEFT)) and (self.x - self.velocidad >= 0):
-            if self.p_paso(self.x - self.velocidad, self.y):
+            if self.p_paso(self.x - self.velocidad , self.y):
                 self.x -= self.velocidad
                 self.direccion = "izquierda"
                 self.base = -1
         if (pyxel.btn(pyxel.KEY_D) or pyxel.btn(pyxel.KEY_RIGHT)) and (self.x + self.velocidad <= pyxel.width - 15):
-            if self.p_paso(self.x + self.velocidad + 17, self.y):
+            if self.p_paso(self.x + self.velocidad , self.y):
                 self.x += self.velocidad
                 self.direccion = "derecha"
                 self.base = 1
@@ -30,24 +31,41 @@ class Pacman:
                 self.y -= self.velocidad
                 self.direccion = "arriba"
         if (pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN)) and (self.y + self.velocidad <= pyxel.height - 16):
-            if self.p_paso(self.x, self.y + self.velocidad + 17):
+            if self.p_paso(self.x, self.y + self.velocidad ):
                 self.y += self.velocidad
                 self.direccion = "abajo"
+
 
     def draw(self):
         pyxel.cls(0)
         self.map.draw()
         pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
     
+    
     def p_paso(self, n_x, n_y):
-        # Calcula la celda correspondiente en el mapa
-        casillax = n_x // self.map.cell_size
-        casillay = n_y // self.map.cell_size
+        # Calcula la celda correspondiente en el mapa para la posición de Pac-Man
+        if self.direccion=="izquierda":
+            casillax = (n_x) // self.map.cell_size  # Desplazar para considerar el tamaño de Pac-Man
+            casillay = n_y // self.map.cell_size  # Sin desplazamiento vertical
+        elif self.direccion=="derecha":
+            casillax = (n_x + 16) // self.map.cell_size  
+            casillay = n_y // self.map.cell_size
+        elif self.direccion=="arriba":
+            casillax = (n_x) // self.map.cell_size  
+            casillay = n_y // self.map.cell_size
+        elif self.direccion=="abajo":
+            casillax = (n_x) // self.map.cell_size  
+            casillay = n_y+16 // self.map.cell_size
 
-        # Verifica si la celda es una pared (valor 1)
+        
+
+        # Verifica si hay una pared en la celda correspondiente
         if self.map.mapa[casillay][casillax] == 1:
-            return False  # No puede pasar
-        return True  # Puede pasar
+            return False  # No puede pasar (hay una pared)
+        return True  # Puede pasar (no hay pared)
+
+
+
         
 
 class Map:
