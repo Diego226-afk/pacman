@@ -3,7 +3,7 @@ import pyxel
 class Pacman:
     def __init__(self):
         pyxel.init(256, 256, title="Pacman", fps=100)
-        pyxel.load("azul.pyxres") 
+        pyxel.load("pacman.pyxres") 
         self.x = 128
         self.y = 128
         self.velocidad = 2
@@ -33,19 +33,13 @@ class Pacman:
         self.tp()
 
     def tp(self):
-        # Teletransportar entre los bordes del mapa
-        if self.x < 0:
-            self.x = pyxel.width - 15
-        elif self.x > pyxel.width - 15:
-            self.x = 0
-        if self.y < 0:
-            self.y = pyxel.height - 16
-        elif self.y > pyxel.height - 16:
-            self.y = 0
+        if self.x==0 and self.y==0:
+            self.x=128
+            self.y=128
 
     def draw(self):
         pyxel.cls(0)  # Limpiar pantalla
-        pyxel.blt(self.x, self.y, 0, self.sprite_actual * 16, 0, 16, 16, 0)
+        pyxel.blt(self.x, self.y, 0, 0, 0, 16, 17, 0)
 
 class Fant:
     pass
