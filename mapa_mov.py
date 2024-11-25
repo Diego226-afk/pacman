@@ -34,6 +34,7 @@ class Pacman:
             if self.p_paso(self.x, self.y + self.velocidad ):
                 self.y += self.velocidad
                 self.direccion = "abajo"
+                
 
 
     def draw(self):
