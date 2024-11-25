@@ -92,7 +92,3 @@ class Map:
 
 mapita = Map()
 Pacman(mapita)
-
-
-
-
