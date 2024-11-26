@@ -42,7 +42,6 @@ class Pacman:
 
     def draw(self):
         pyxel.cls(0)
-        self.map.draw()
         pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
 
     def check_collision(self, new_x, new_y):
