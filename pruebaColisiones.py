@@ -70,7 +70,7 @@ class Pacman:
         if self._momento<8:
             pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
         if self._momento>=8:
-            pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
+            pyxel.blt(self.x, self.y, 2, 0, 0, self.base * 16, 17, 0)
 
 
           
