@@ -13,6 +13,7 @@ class Pacman:
         self.base = 1
         self.map = map_instance  # Pasar la instancia del mapa
         self.sprite_size = 16  # Tamaño del sprite
+        self._momento = 0
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -62,7 +63,17 @@ class Pacman:
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
         self.map.draw()  # Dibujar el mapa
-        pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)  # Dibujar a Pacman
+        # Dibujar Pacman
+        self._momento+=1
+        if self._momento==32:
+            self._momento=0
+        if self._momento<8:
+            pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
+        if self._momento>=8:
+            pyxel.blt(self.x, self.y, 0, 0, 0, self.base * 16, 17, 0)
+
+
+          
 
 
 class Map:
