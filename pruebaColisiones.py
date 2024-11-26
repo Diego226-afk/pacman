@@ -1,18 +1,18 @@
 import pyxel
 
 # Inicializar Pyxel al comienzo del programa
-pyxel.init(18*36, 18*18, title="Pacman", fps=60)
+pyxel.init(18*36, 19*18, title="Pacman", fps=60)
 
 class Pacman:
     def __init__(self, map_instance):
         pyxel.load("pacman.pyxres")  # Cargar recursos de Pyxel
-        self.x = 17
-        self.y = 17
-        self.velocidad = 2
+        self.x = 18
+        self.y = 18
+        self.velocidad = 1
         self.direccion = "derecha"
         self.base = 1
         self.map = map_instance  # Pasar la instancia del mapa
-        self.sprite_size = 16  # Tamaño del sprite
+        self.sprite_size = 14  # Tamaño del sprite
         self._momento = 0
         pyxel.run(self.update, self.draw)
 
@@ -45,11 +45,13 @@ class Pacman:
         if not self.check_collision(next_x, next_y):
             self.x, self.y = next_x, next_y
 
+        self.tp()
+
     def check_collision(self, new_x, new_y):
         # Calcular las coordenadas de la celda en la matriz del mapa
-        left = (new_x) // self.map.cell_size
+        left = (new_x + 3) // self.map.cell_size
         right = (new_x + self.sprite_size - 1) // self.map.cell_size
-        top = (new_y) // self.map.cell_size
+        top = (new_y + 3) // self.map.cell_size
         bottom = (new_y + self.sprite_size - 1) // self.map.cell_size
 
         # Verificar si alguna esquina de Pacman está dentro de un muro
@@ -59,6 +61,15 @@ class Pacman:
             self.map.maze[bottom][left] == 1 or
             self.map.maze[bottom][right] == 1
         )
+    def tp(self):
+        if self.x<=0:
+            self.x = 35*18
+            self.y = 9*18
+        elif self.x>=35*18:
+            self.x = 0
+            self.y = 9*18
+
+
 
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
@@ -81,7 +92,7 @@ class Map:
         # Inicializar el mapa
         self.width = 340
         self.height = 270
-        self.cell_size = 17
+        self.cell_size = 18
         self.maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
