@@ -8,12 +8,13 @@ class Pacman:
         pyxel.load("pacman.pyxres")  # Cargar recursos de Pyxel
         self.x = 18
         self.y = 18
-        self.velocidad = 1
+        self.velocidad = 2
         self.direccion = "derecha"
         self.base = 1
         self.map = map_instance  # Pasar la instancia del mapa
         self.sprite_size = 14  # Tamaño del sprite
         self._momento = 0
+        self._contador = 0
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -79,31 +80,37 @@ class Pacman:
 
             if self.map.maze[cell_y][cell_x] == 2:
                 self.map.maze[cell_y][cell_x] = 0 
+                self._contador+=200
                 return True  
             return False
+    
 
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
         self.map.draw()  # Dibujar el mapa
+        pyxel.text(10, 10, f"{self._contador} puntos", 8)
         # Dibujar Pacman
         self._momento+=1
         if self._momento==32:
             self._momento=0
         if self._momento<8:
-            if self.direccion=="izquierda" or self.direccion=="derecha":
-                pyxel.blt(self.x, self.y, 0, 0, 0, 13*self.base, 14, 0)
-            if self.direccion=="arriba" or self.direccion=="abajo":
-                pyxel.blt(self.x, self.y, 0, 0, 16, 14, 29, 0)
+            if self.direccion=="derecha":
+                pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
+            if self.direccion=="izquierda":
+                pyxel.blt(self.x, self.y, 0, 0, 32, 16, 16, 0)
+            if self.direccion=="arriba":
+                pyxel.blt(self.x, self.y, 0, 32, 16, 16, 14, 0)
+            if self.direccion=="abajo":
+                pyxel.blt(self.x, self.y, 0, 0, 16, 16, 14, 0)
                 
-
         if self._momento>=8:
             if self.direccion=="izquierda" or self.direccion=="derecha":
-                pyxel.blt(self.x, self.y, 0, 16, 0, 30, 16, 0)
-            if self.direccion=="arriba" or self.direccion=="abajo":
-                pyxel.blt(self.x, self.y, 0, 16, 16, 30, 30, 0)
-
-
-          
+                pyxel.blt(self.x, self.y, 0, 0, 0, 13*self.base, 16, 0)
+            if self.direccion=="abajo":
+                pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
+            if self.direccion=="arriba":
+                pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
+                          
 
 
 class Map:
