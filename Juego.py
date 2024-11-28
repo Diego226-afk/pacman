@@ -1,4 +1,5 @@
 import pyxel
+from fantasmas import fanta
 
 # Inicializar Pyxel al comienzo del programa
 pyxel.init(18*36, 19*18, title="Pacman", fps=60)
@@ -44,7 +45,7 @@ class Pacman:
             self.direccion = "abajo"
 
         # Comprobar colisión antes de actualizar la posición
-        if not self.check_collision(next_x, next_y):
+        if not self.ver_colisiones(next_x, next_y):
             self.x, self.y = next_x, next_y
         
         
@@ -52,7 +53,7 @@ class Pacman:
         self.ñam_bolas(self.x , self.y)
         self.tp()
 
-    def check_collision(self, new_x, new_y):
+    def ver_colisiones(self, new_x, new_y):
         # Calcular las coordenadas de la celda en la matriz del mapa
         left = (new_x + 3) // self.map.cell_size
         right = (new_x + self.sprite_size - 1) // self.map.cell_size
