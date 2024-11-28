@@ -88,7 +88,7 @@ class Pacman:
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
         self.map.draw()  # Dibujar el mapa
-        pyxel.text(10, 10, f"{self._contador} puntos", 8) 
+        pyxel.text(10, 10, f"{self._contador} puntos", 8)
         # Dibujar Pacman
         self._momento+=1
         if self._momento==32:
@@ -99,13 +99,15 @@ class Pacman:
             if self.direccion=="izquierda":
                 pyxel.blt(self.x, self.y, 0, 0, 32, 16, 16, 0)
             if self.direccion=="arriba":
-                pyxel.blt(self.x, self.y, 0, 32, 16, 16, 14, 0)
+                pyxel.blt(self.x, self.y, 0, 32, 16, 16, 16, 0)
             if self.direccion=="abajo":
-                pyxel.blt(self.x, self.y, 0, 0, 16, 16, 14, 0)
+                pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 0)
                 
         if self._momento>=8:
-            if self.direccion=="izquierda" or self.direccion=="derecha":
-                pyxel.blt(self.x, self.y, 0, 0, 0, 13*self.base, 16, 0)
+            if self.direccion=="derecha":
+                pyxel.blt(self.x, self.y, 0, 0, 0, 16, 16, 0)
+            if self.direccion=="izquierda":
+                pyxel.blt(self.x, self.y, 0, 16, 32, 16, 16, 0)
             if self.direccion=="abajo":
                 pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
             if self.direccion=="arriba":
@@ -128,9 +130,9 @@ class Map:
         [1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1],
         [1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
         [1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1],
-        [1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
-        [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
+        [1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 0, 0, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
         [1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1],
         [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
