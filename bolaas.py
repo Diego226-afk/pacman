@@ -88,7 +88,7 @@ class Pacman:
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
         self.map.draw()  # Dibujar el mapa
-        pyxel.text(10, 10, f"{self._contador} puntos", 8)
+        pyxel.text(10, 10, f"{self._contador} puntos", 8) 
         # Dibujar Pacman
         self._momento+=1
         if self._momento==32:
