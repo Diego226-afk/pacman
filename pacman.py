@@ -1,5 +1,5 @@
 import pyxel
-from Mapas import Map
+
 class Pacman:
     def __init__(self, map_instance):
         self.x = 18

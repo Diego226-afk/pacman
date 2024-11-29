@@ -1,8 +1,8 @@
 import pyxel
 class Fanta:
     def __init__(self):
-        self.x = 1
-        self.y = 1
+        self.x = 18*18
+        self.y = 18*9
 
     def update(self):
         pass
