@@ -47,7 +47,7 @@ class Pacman:
         self.ñam_bolas(self.x , self.y)
         self.tp()
 
-    def check_collision(self, new_x, new_y):
+    def ver_colisiones(self, new_x, new_y):
         # Calcular las coordenadas de la celda en la matriz del mapa
         left = new_x // self.map.cell_size
         right = (new_x + self.sprite_size - 1) // self.map.cell_size
