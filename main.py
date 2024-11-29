@@ -11,7 +11,7 @@ class App():
         # Crear instancias de Pacman, Mapita y Fanta
         self.mapa = Map()  # Pasar la instancia del mapa
         self.pacman = Pacman(self.mapa)  # Pasar la instancia del mapa a Pacman
-        self.fantasma = Fanta(self.pacman)
+        self.fantasma = Fanta()
         pyxel.run(self.draw,self.update)
 
 
