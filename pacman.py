@@ -50,9 +50,9 @@ class Pacman:
     def ver_colisiones(self, new_x, new_y):
         # Calcular las coordenadas de la celda en la matriz del mapa
         left = (new_x + 3) // self.map.cell_size
-        right = (new_x + self.sprite_size - 1) // self.map.cell_size
+        right = (new_x + self.sprite_size - 2) // self.map.cell_size
         top = (new_y + 3) // self.map.cell_size
-        bottom = (new_y + self.sprite_size - 1) // self.map.cell_size
+        bottom = (new_y + self.sprite_size - 2) // self.map.cell_size
 
         # Verificar si alguna esquina de Pacman está dentro de un muro
         return (
