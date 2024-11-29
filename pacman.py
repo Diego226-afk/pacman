@@ -6,43 +6,43 @@ class Pacman:
         self.y = 18
         self.velocidad = 2
         self.direccion = "derecha"
-        self.base = 1
         self.map = map_instance  # Pasar la instancia del mapa
-        self.sprite_size = 14  # Tamaño del sprite
+        self.sprite_size = 18  # Tamaño del sprite
         self._momento = 0
         self._contador = 0
+        self._moviendo = False
 
     def update(self):
         next_x, next_y = self.x, self.y
+        self._moviendo = False
 
         # Mover hacia la izquierda
         if (pyxel.btn(pyxel.KEY_A) or pyxel.btn(pyxel.KEY_LEFT)):
             next_x -= self.velocidad
             self.direccion = "izquierda"
-            self.base = -1
+            self._moviendo = True
 
         # Mover hacia la derecha
         elif (pyxel.btn(pyxel.KEY_D) or pyxel.btn(pyxel.KEY_RIGHT)):
             next_x += self.velocidad
             self.direccion = "derecha"
-            self.base = 1
+            self._moviendo = True
 
         # Mover hacia arriba
         elif (pyxel.btn(pyxel.KEY_W) or pyxel.btn(pyxel.KEY_UP)):
             next_y -= self.velocidad
             self.direccion = "arriba"
-            self.base = -1
+            self._moviendo = True
 
         # Mover hacia abajo
         elif (pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN)):
             next_y += self.velocidad
             self.direccion = "abajo"
+            self._moviendo = True
 
         # Comprobar colisión antes de actualizar la posición
         if not self.ver_colisiones(next_x, next_y):
             self.x, self.y = next_x, next_y
-        
-        
 
         self.ñam_bolas(self.x , self.y)
         self.tp()
@@ -61,7 +61,7 @@ class Pacman:
             self.map.maze[bottom][left] == 1 or
             self.map.maze[bottom][right] == 1
         )
-    
+        
 
     def tp(self):
         if self.x<=0:
@@ -85,10 +85,7 @@ class Pacman:
     def draw(self):
           # Limpiar la pantalla
         pyxel.text(10, 10, f"{self._contador} puntos", 8)
-        self._momento+=1
-        if self._momento==32:
-            self._momento=0
-        if self._momento<8:
+        if not self._moviendo:
             if self.direccion=="derecha":
                 pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
             if self.direccion=="izquierda":
@@ -97,13 +94,26 @@ class Pacman:
                 pyxel.blt(self.x, self.y, 0, 32, 16, 16, 16, 0)
             if self.direccion=="abajo":
                 pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 0)
-                
-        if self._momento>=8:
-            if self.direccion=="derecha":
-                pyxel.blt(self.x, self.y, 0, 0, 0, 16, 16, 0)
-            if self.direccion=="izquierda":
-                pyxel.blt(self.x, self.y, 0, 16, 32, 16, 16, 0)
-            if self.direccion=="abajo":
-                pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
-            if self.direccion=="arriba":
-                pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
+        if self._moviendo:
+            self._momento+=1
+            if self._momento==32:
+                self._momento=0
+            if self._momento<8:
+                if self.direccion=="derecha":
+                    pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
+                if self.direccion=="izquierda":
+                    pyxel.blt(self.x, self.y, 0, 0, 32, 16, 16, 0)
+                if self.direccion=="arriba":
+                    pyxel.blt(self.x, self.y, 0, 32, 16, 16, 16, 0)
+                if self.direccion=="abajo":
+                    pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 0)
+                    
+            if self._momento>=8:
+                if self.direccion=="derecha":
+                    pyxel.blt(self.x, self.y, 0, 0, 0, 16, 16, 0)
+                if self.direccion=="izquierda":
+                    pyxel.blt(self.x, self.y, 0, 16, 32, 16, 16, 0)
+                if self.direccion=="abajo":
+                    pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
+                if self.direccion=="arriba":
+                    pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
