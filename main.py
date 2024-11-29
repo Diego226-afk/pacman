@@ -12,9 +12,7 @@ class App():
         self.mapa = Map()  # Pasar la instancia del mapa
         self.pacman = Pacman(self.mapa)  # Pasar la instancia del mapa a Pacman
         self.fantasma = Fanta()
-    
-    def dibu():
-        pyxel.blt(18, 18, 0, 0, 32, 16, 16, 0)
+        pyxel.run(self.draw,self.update)
 
 
     def update(self):
@@ -24,16 +22,10 @@ class App():
         # Actualizar los elementos del juego
         self.pacman.update()  # Actualizar Pacman
         self.fantasma.update()  # Actualizar Fanta
-        self.dibu()
 
     def draw(self):
         pyxel.cls(0)  # Limpiar la pantalla
-        pyxel.text(10, 10, f"{self._contador} puntos", 8)
-        
-
-        # Dibujar los elementos del juego
         self.mapa.draw()  # Dibujar el mapa
-        self.dibu()
         self.pacman.draw()  # Dibujar Pacman
         self.fantasma.draw()  # Dibujar Fanta
 

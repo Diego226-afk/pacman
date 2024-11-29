@@ -8,7 +8,7 @@ class Fanta:
         pass
 
     def draw(self):
-        pyxel.rect(self.x, self.y, 200, 7)  # Dibujar Fantasma como un rectangulo
+        pyxel.blt(self.x, self.y, 2, 0, 0, 16, 16, 0)  # Dibujar Fantasma como un rectangulo
 
 
 

@@ -84,7 +84,7 @@ class Pacman:
 
     def draw(self):
           # Limpiar la pantalla
-        # Dibujar Pacman
+        pyxel.text(10, 10, f"{self._contador} puntos", 8)
         self._momento+=1
         if self._momento==32:
             self._momento=0
