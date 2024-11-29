@@ -2,8 +2,6 @@ import pyxel
 from Mapas import Map
 class Pacman:
     def __init__(self, map_instance):
-        pyxel.init(18*36, 19*18, title="Pacman", fps=60)
-        pyxel.load("pacman.pyxres")  # Cargar recursos de Pyxel
         self.x = 18
         self.y = 18
         self.velocidad = 2
@@ -13,7 +11,6 @@ class Pacman:
         self.sprite_size = 14  # Tamaño del sprite
         self._momento = 0
         self._contador = 0
-        pyxel.run(self.update, self.draw)
 
     def update(self):
         next_x, next_y = self.x, self.y
@@ -64,6 +61,8 @@ class Pacman:
             self.map.maze[bottom][left] == 1 or
             self.map.maze[bottom][right] == 1
         )
+    
+
     def tp(self):
         if self.x<=0:
             self.x = 35*18
@@ -84,9 +83,7 @@ class Pacman:
     
 
     def draw(self):
-        pyxel.cls(0)  # Limpiar la pantalla
-        self.map.draw()  # Dibujar el mapa
-        pyxel.text(10, 10, f"{self._contador} puntos", 8)
+          # Limpiar la pantalla
         # Dibujar Pacman
         self._momento+=1
         if self._momento==32:
@@ -110,5 +107,3 @@ class Pacman:
                 pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
             if self.direccion=="arriba":
                 pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
-map_instance = Map()
-Pacman(map_instance)
