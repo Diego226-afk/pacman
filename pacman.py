@@ -7,7 +7,7 @@ class Pacman:
         self.velocidad = 2
         self.direccion = "derecha"
         self.map = map_instance  # Pasar la instancia del mapa
-        self.sprite_size = 16  # Tamaño del sprite
+        self.sprite_size = 15  # Tamaño del sprite
         self._momento = 0
         self._contador = 0
         self._moviendo = False
@@ -49,19 +49,19 @@ class Pacman:
 
     def ver_colisiones(self, new_x, new_y):
         # Calcular las coordenadas de la celda en la matriz del mapa
-        left = new_x // self.map.cell_size
+        left = (new_x + 3) // self.map.cell_size
         right = (new_x + self.sprite_size - 1) // self.map.cell_size
-        top = new_y // self.map.cell_size
+        top = (new_y + 3) // self.map.cell_size
         bottom = (new_y + self.sprite_size - 1) // self.map.cell_size
 
         # Verificar si alguna esquina de Pacman está dentro de un muro
-        return not (
-            self.map.mapa[top][left] == 1 or
-            self.map.mapa[top][right] == 1 or
-            self.map.mapa[bottom][left] == 1 or
-            self.map.mapa[bottom][right] == 1
+        return (
+            self.map.maze[top][left] == 1 or
+            self.map.maze[top][right] == 1 or
+            self.map.maze[bottom][left] == 1 or
+            self.map.maze[bottom][right] == 1
         )
-    
+        
 
     def tp(self):
         if self.x<=0:
