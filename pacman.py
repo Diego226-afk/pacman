@@ -84,7 +84,7 @@ class Pacman:
 
     def draw(self):
           # Limpiar la pantalla
-        pyxel.text(10, 10, f"{self._contador} puntos", 8)
+        pyxel.text(18, 18, f"{self._contador} puntos", 8)
         if not self._moviendo:
             if self.direccion=="derecha":
                 pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
