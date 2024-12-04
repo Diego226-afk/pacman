@@ -1,7 +1,7 @@
 import pyxel
 from pacman import Pacman
-from Mapas import Map
-from fanta_v2 import Blinky, Pinky, Inky, Clyde
+from Mapa_2 import Map
+from fanta_v2 import Fantasma, Blinky, Pinky, Inky, Clyde
 
 class App():
     def __init__(self):
@@ -12,6 +12,7 @@ class App():
         # Crear instancias del mapa y Pacman
         self.mapa = Map()
         self.pacman = Pacman(self.mapa)
+        self.fantasma = Fantasma(0,0,0,self.mapa)
 
         # Crear los fantasmas con posiciones iniciales y colores únicos
         self.fantasmas = [

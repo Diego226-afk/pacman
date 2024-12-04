@@ -73,7 +73,10 @@ class Pacman:
 
     def draw(self):
         pyxel.text(18, 18, f"{self._contador} puntos", 8)
-        if not self._moviendo:
+        self._momento+=1
+        if self._momento==32:
+            self._momento=0
+        if self._momento<8 or not self._moviendo:
             if self.direccion=="derecha":
                 pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
             if self.direccion=="izquierda":
@@ -82,26 +85,13 @@ class Pacman:
                 pyxel.blt(self.x, self.y, 0, 32, 16, 16, 16, 0)
             if self.direccion=="abajo":
                 pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 0)
-        if self._moviendo:
-            self._momento+=1
-            if self._momento==32:
-                self._momento=0
-            if self._momento<8:
-                if self.direccion=="derecha":
-                    pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)
-                if self.direccion=="izquierda":
-                    pyxel.blt(self.x, self.y, 0, 0, 32, 16, 16, 0)
-                if self.direccion=="arriba":
-                    pyxel.blt(self.x, self.y, 0, 32, 16, 16, 16, 0)
-                if self.direccion=="abajo":
-                    pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 0)
                     
-            if self._momento>=8:
-                if self.direccion=="derecha":
-                    pyxel.blt(self.x, self.y, 0, 0, 0, 16, 16, 0)
-                if self.direccion=="izquierda":
-                    pyxel.blt(self.x, self.y, 0, 16, 32, 16, 16, 0)
-                if self.direccion=="abajo":
-                    pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
-                if self.direccion=="arriba":
-                    pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
+        if self._momento>=8 and self._moviendo:
+            if self.direccion=="derecha":
+                pyxel.blt(self.x, self.y, 0, 0, 0, 16, 16, 0)
+            if self.direccion=="izquierda":
+                pyxel.blt(self.x, self.y, 0, 16, 32, 16, 16, 0)
+            if self.direccion=="abajo":
+                pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
+            if self.direccion=="arriba":
+                pyxel.blt(self.x, self.y, 0, 32, 0, 16, 16, 0)
