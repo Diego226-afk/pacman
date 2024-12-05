@@ -61,12 +61,60 @@ class Pacman:
         )
 
     def comer_bolas(self):
-        cell_x = self.x // self.map.cell_size
-        cell_y = self.y // self.map.cell_size
+        """
+        Detecta y elimina bolas si Pac-Man las toca, utilizando un rectángulo de colisión reducido.
+        """
+        cell_size = self.map.cell_size
 
-        if self.map.maze[cell_y][cell_x] == 2:
-            self.map.maze[cell_y][cell_x] = 0
-            self._contador += 100
+        # Calcula el rectángulo reducido de Pac-Man
+        colision_reduccion = 0.3  # Proporción para reducir el tamaño del rectángulo (30% más pequeño)
+        reducido_x = self.x + colision_reduccion * cell_size
+        reducido_y = self.y + colision_reduccion * cell_size
+        reducido_ancho = cell_size * (1 - colision_reduccion * 2)
+        reducido_alto = cell_size * (1 - colision_reduccion * 2)
+
+        pacman_rect = (
+            reducido_x, reducido_y,
+            reducido_x + reducido_ancho, reducido_y + reducido_alto
+        )
+
+        # Recorre las celdas vecinas para detectar colisiones
+        for dy in range(-1, 2):  # Filas vecinas
+            for dx in range(-1, 2):  # Columnas vecinas
+                cell_x = (self.x // cell_size) + dx
+                cell_y = (self.y // cell_size) + dy
+
+                # Verifica límites del laberinto
+                if 0 <= cell_y < len(self.map.maze) and 0 <= cell_x < len(self.map.maze[cell_y]):
+                    if self.map.maze[cell_y][cell_x] == 2:  # Si hay una bola
+                        # Calcula el rectángulo de la bola
+                        bola_rect = (
+                            cell_x * cell_size, cell_y * cell_size,
+                            (cell_x + 1) * cell_size, (cell_y + 1) * cell_size
+                        )
+
+                        # Detecta si los rectángulos se superponen
+                        if self._rect_collision(pacman_rect, bola_rect):
+                            self.map.maze[cell_y][cell_x] = 0  # Elimina la bola
+                            self.incrementar_puntaje(100)      # Incrementa el puntaje
+
+    def _rect_collision(self, rect1, rect2):
+        """
+        Comprueba si dos rectángulos se superponen.
+        """
+        x1_min, y1_min, x1_max, y1_max = rect1
+        x2_min, y2_min, x2_max, y2_max = rect2
+
+        return not (x1_max <= x2_min or  # Pac-Man a la izquierda de la bola
+                    x1_min >= x2_max or  # Pac-Man a la derecha de la bola
+                    y1_max <= y2_min or  # Pac-Man encima de la bola
+                    y1_min >= y2_max)    # Pac-Man debajo de la bola
+
+    def incrementar_puntaje(self, puntos):
+        """
+        Incrementa el puntaje del jugador.
+        """
+        self._contador += puntos
 
     def reset_posicion(self):
         self.x, self.y = 18, 18

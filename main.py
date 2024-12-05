@@ -10,6 +10,7 @@ class App:
         self.pinky = Pinky(16, 0, 1)   # Color rosa (fila 1)
         self.clyde = Clyde(32, 0, 2)   # Color naranja (fila 2)
         self.inky = Inky(48, 0, 3)
+        self.fanta = Fanta
 
         # Define los niveles
         niveles = [
@@ -56,7 +57,7 @@ class App:
 
         self.pacman.update()
         self.mapa.update(self.pacman)
-
+        self.fanta(Pacman)
         self.blinky.comportamiento(self.pacman)
         self.inky.comportamiento(self.pacman, self.blinky)
         self.pinky.comportamiento(self.pacman)

@@ -1,7 +1,7 @@
 import pyxel
 from pacman import Pacman as pc
 
-class Fanta:
+class Fanta(pc):
     def __init__(self, x, y, color, vel=2):
         self.x = x
         self.y = y
@@ -10,7 +10,6 @@ class Fanta:
         self.dire = "izq"
 
     def update(self):
-        # Aquí actualizas la posición de los fantasmas y verificas las colisiones
         self.tp()
         self.ver_colisiones()
 
@@ -20,14 +19,10 @@ class Fanta:
             return True
 
     def tp(self):
-        # Suponiendo que 'tp' es un método para teletransportar
-        # (esto debería estar implementado en tu clase Pacman)
-        pass
+        super().tp()
 
     def ver_colisiones(self):
-        # Aquí implementas la detección de colisiones entre Pac-Man y el fantasma
-        # (esto también debe estar en tu clase Pacman)
-        pass
+        super().ver_colisiones()
 
     def mover_hacia_objetivo(self, objetivo_x, objetivo_y):
         """
