@@ -1,16 +1,22 @@
 import pyxel
 
-class Pacman:
-    def __init__(self, map_instance):
+class Pacman():
+    def __init__(self, map_instance, fantasmas):
+        self.map = map_instance 
+        self.map_instance = map_instance
+        self.fantasmas = fantasmas
         self.x = 18
         self.y = 18
         self.velocidad = 2
         self.direccion = "derecha"
-        self.map = map_instance
         self.sprite_size = 15
         self._contador = 0
         self._momento = 0
         self._moviendo = False  # Inicializamos _moviendo
+        self.vidas = 3
+        self._marcador = 0
+        self.modo_poder = False  # Indica si está en modo de poder
+        self.tiempo_poder = 0  # Temporizador para el modo de poder
 
     def update(self):
         next_x, next_y = self.x, self.y
@@ -38,6 +44,21 @@ class Pacman:
 
         self.tp()
         self.comer_bolas()
+        self.comer_Gbolas()
+
+        if self.modo_poder:
+            self.actualizar_modo_poder()
+
+    def ver_colisiones(self, new_x, new_y):
+        left = (new_x + 3) // self.map.cell_size
+        right = (new_x + self.sprite_size - 2) // self.map.cell_size
+        top = (new_y + 3) // self.map.cell_size
+        bottom = (new_y + self.sprite_size - 2) // self.map.cell_size
+
+        return any(
+            self.map.maze[row][col] in (1, 4, 5) 
+            for row, col in [(top, left), (top, right), (bottom, left), (bottom, right)]
+        )
 
     def tp(self):
         if self.x <= 0:
@@ -47,57 +68,51 @@ class Pacman:
             self.x = 0
             self.y = 9 * 18
 
-    def ver_colisiones(self, new_x, new_y):
-        left = (new_x + 3) // self.map.cell_size
-        right = (new_x + self.sprite_size - 2) // self.map.cell_size
-        top = (new_y + 3) // self.map.cell_size
-        bottom = (new_y + self.sprite_size - 2) // self.map.cell_size
-
-        return (
-            self.map.maze[top][left] == 1 or
-            self.map.maze[top][right] == 1 or
-            self.map.maze[bottom][left] == 1 or
-            self.map.maze[bottom][right] == 1
-        )
-
     def comer_bolas(self):
+        for punto in self.map_instance.listaPuntos[:]:
+            pacman_rect = (self.x, self.y, self.x + self.sprite_size, self.y + self.sprite_size)
+            punto_rect = (punto.x - punto.r, punto.y - punto.r, punto.x + punto.r, punto.y + punto.r)
+
+            if self._rect_collision(pacman_rect, punto_rect):
+                self.incrementar_puntaje(100)
+                self._marcador += 1
+                self.map_instance.listaPuntos.remove(punto)
+                break
+    
+    def comer_Gbolas(self):
+        for punto in self.map_instance.listaGpuntos[:]:
+            pacman_rect = (self.x, self.y, self.x + self.sprite_size, self.y + self.sprite_size)
+            punto_rect = (punto.x - punto.r, punto.y - punto.r, punto.x + punto.r, punto.y + punto.r)
+
+            if self._rect_collision(pacman_rect, punto_rect):
+                self.incrementar_puntaje(500)
+                self.map_instance.listaGpuntos.remove(punto)
+                self.activar_modo_poder()  # Activar modo de poder
+                break
+    
+    def activar_modo_poder(self):
         """
-        Detecta y elimina bolas si Pac-Man las toca, utilizando un rectángulo de colisión reducido.
+        Activa el modo de poder para Pacman.
         """
-        cell_size = self.map.cell_size
+        print("¡Modo de poder activado!")
+        self.modo_poder = True
+        self.tiempo_poder = 0
+        self.tiempo_poder = pyxel.frame_count + 300  # Dura 300 frames (~5 segundos a 60 FPS)
 
-        # Calcula el rectángulo reducido de Pac-Man
-        colision_reduccion = 0.3  # Proporción para reducir el tamaño del rectángulo (30% más pequeño)
-        reducido_x = self.x + colision_reduccion * cell_size
-        reducido_y = self.y + colision_reduccion * cell_size
-        reducido_ancho = cell_size * (1 - colision_reduccion * 2)
-        reducido_alto = cell_size * (1 - colision_reduccion * 2)
+        # Hacer a los fantasmas vulnerables
+        for fantasma in self.fantasmas:
+            fantasma.volver_vulnerable()
 
-        pacman_rect = (
-            reducido_x, reducido_y,
-            reducido_x + reducido_ancho, reducido_y + reducido_alto
-        )
-
-        # Recorre las celdas vecinas para detectar colisiones
-        for dy in range(-1, 2):  # Filas vecinas
-            for dx in range(-1, 2):  # Columnas vecinas
-                cell_x = (self.x // cell_size) + dx
-                cell_y = (self.y // cell_size) + dy
-
-                # Verifica límites del laberinto
-                if 0 <= cell_y < len(self.map.maze) and 0 <= cell_x < len(self.map.maze[cell_y]):
-                    if self.map.maze[cell_y][cell_x] == 2:  # Si hay una bola
-                        # Calcula el rectángulo de la bola
-                        bola_rect = (
-                            cell_x * cell_size, cell_y * cell_size,
-                            (cell_x + 1) * cell_size, (cell_y + 1) * cell_size
-                        )
-
-                        # Detecta si los rectángulos se superponen
-                        if self._rect_collision(pacman_rect, bola_rect):
-                            self.map.maze[cell_y][cell_x] = 0  # Elimina la bola
-                            self.incrementar_puntaje(100)      # Incrementa el puntaje
-
+    def actualizar_modo_poder(self):
+        """
+        Actualiza el temporizador del modo de poder y descativa si se acaba.
+        """
+        if pyxel.frame_count >= self.tiempo_poder:
+            print("El modo de poder ha terminado.")
+            self.modo_poder = False
+            for fantasma in self.fantasmas:
+                fantasma.volver_normal()
+    
     def _rect_collision(self, rect1, rect2):
         """
         Comprueba si dos rectángulos se superponen.
@@ -116,11 +131,13 @@ class Pacman:
         """
         self._contador += puntos
 
+              
     def reset_posicion(self):
         self.x, self.y = 18, 18
 
     def draw(self):
         pyxel.text(18, 18, f"{self._contador} puntos", 8)
+        pyxel.text(72, 18, f"Vidas: {self.vidas}", 8)
         self._momento+=1
         if self._momento==32:
             self._momento=0
